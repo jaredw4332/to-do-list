@@ -10,10 +10,50 @@ import './style.css'
 //tying stuff together, like with event listeners
 // figure out what makes the most sense as you go along
 
-const taskMaker = (name, desc, date) => {
-    const addTask = () => name.push(placeholder)
-    return { addTask }
+// get form values
+//turn values into "task"
+// turn task into display
+
+const getTaskValues = () => {
+    let taskName = document.getElementById('task')
+    let taskDesc = document.getElementById('desc')
+    let taskDate = document.getElementById('date')
+    return taskName, taskDesc, taskDate
 }
+// follow by calling task maker
+
+
+const taskMaker = (name, desc, date) => {
+    return { name, desc, date }
+}
+
+let newTask = taskMaker("laundry", "socks", "2023-01-01")
+
+
+const taskContainer = document.getElementById('taskContainer')
+
+
+const displayTask = (task) => {
+    let newTask = document.createElement('div')
+    newTask.classList.add('newTaskContainer')
+    taskContainer.appendChild(newTask)
+
+    let newTaskName = createThing(task.name, 'p', "taskName", newTask)
+    let newTaskDesc = createThing(task.desc, 'p', "taskDesc", newTask)
+    let newTaskDate = createThing(task.date, 'p', "taskDate", newTask)
+}
+
+
+const createThing = (text, type, group, parent) => {
+    let newThing = document.createElement(type)
+    newThing.textContent = text
+    newThing.classList.add(group)
+    newThing.appendChild(parent)
+}
+
+displayTask(newTask)
+
+
 
 const projectMaker = (name) => {
 //    let name = []
@@ -22,19 +62,30 @@ const projectMaker = (name) => {
 
 
 
-const addTask = document.getElementById("taskPrompt")
-const addTaskButton = document.getElementById("addTaskButton")
+const taskPrompt = document.getElementById("taskPrompt")
+const newTaskButton = document.getElementById("newTaskButton")
 const addTaskCancel = document.getElementById("addTaskCancel")
+const addTaskAdd = document.getElementById("addTaskAdd")
 
-const addTaskReveal = () => {
-    addTask.classList.remove("hidden")
-    addTaskButton.classList.add("hidden")
+const taskPromptReveal = () => {
+    taskPrompt.classList.remove("hidden")
+    newTaskButton.classList.add("hidden")
 }
 
-const addTaskHide = () => {
-    addTask.classList.add("hidden")
-    addTaskButton.classList.remove("hidden")
+const taskPromptHide = () => {
+    taskPrompt.classList.add("hidden")
+    newTaskButton.classList.remove("hidden")
 }
 
-addTaskButton.addEventListener("click", addTaskReveal)
-addTaskCancel.addEventListener("click", addTaskHide)
+//temp
+const funnyFunction = () => {
+    getTaskValues()
+    let funnyTask = taskMaker(taskName, taskDesc, taskDate)
+    displayTask(funnyTask)
+    return false
+}
+
+
+newTaskButton.addEventListener("click", taskPromptReveal)
+addTaskCancel.addEventListener("click", taskPromptHide)
+addTaskAdd.addEventListener("click", funnyFunction)
