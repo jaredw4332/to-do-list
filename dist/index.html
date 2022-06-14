@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oh, what to do?</title>
+    <title>Git 'er Done</title>
     <script src="main.js" defer></script>
 </head>
 <body>
     <div id="container">
         <div id="header">
-            <h1>My to-do list</h1>
+            <h1 id="headerTitle">Git 'er Done</h1>
         </div>
 
         <div id="sidebar">
@@ -18,7 +18,25 @@
         </div>
 
         <div id="main">
-            <h2>Things</h2>
+            <h2 id="mainTitle">Things</h2>
+
+            <button type="button" id="addTaskButton">Add task</button>
+
+            <div id="taskPrompt" class="hidden">
+                <form id="taskInput" onsubmit="">
+                    <label for="task">The What:</label>
+                    <input type="text" name="task" id="task" placeholder="What needs to get done?">
+                    
+                    <label for="desc">The What Else:</label>
+                    <input type="text" name="desc" id="desc" placeholder="What else is worth mentioning?">
+                    
+                    <label for="duedate">The When:</label>
+                    <input type="date" name="duedate" id="duedate">
+
+                    <button type="submit">Add</button>
+                    <button type="button" id="addTaskCancel">Cancel</button>
+                </form>
+            </div>
         </div>
     </div>
 </body>
