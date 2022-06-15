@@ -10,33 +10,54 @@
 <body>
     <div id="container">
         <div id="header">
+            <button id="sidebarToggle"></button>
             <h1 id="headerTitle">Git 'er Done</h1>
         </div>
 
         <div id="sidebar">
             <p>Tasks</p>
+
+            <button type="button">New Project</button>
+
+            <div id="projectPrompt" class="">
+                <form id="projectInput">
+                    <label for="title">The Which:</label>
+                    <input type="text" name="title" id="title" placeholder="Which tasks will go in here?">
+                    <div class="promptButtonContainer">
+                    <button type="button" id="addProjectAdd" class="addButton">Add</button>
+                    <button type="button" id="addProjectCancel" class="cancelButton">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="projectContainer"></div>
+
         </div>
 
         <div id="main">
             <h2 id="mainTitle">Things</h2>
 
-            <button type="button" id="addTaskButton">Add task</button>
+            <button type="button" id="newTaskButton">New task</button>
 
             <div id="taskPrompt" class="hidden">
-                <form id="taskInput" onsubmit="">
+                <form id="taskInput">
                     <label for="task">The What:</label>
                     <input type="text" name="task" id="task" placeholder="What needs to get done?">
                     
                     <label for="desc">The What Else:</label>
                     <input type="text" name="desc" id="desc" placeholder="What else is worth mentioning?">
                     
-                    <label for="duedate">The When:</label>
-                    <input type="date" name="duedate" id="duedate">
-
-                    <button type="submit">Add</button>
-                    <button type="button" id="addTaskCancel">Cancel</button>
+                    <label for="date">The When:</label>
+                    <input type="date" name="date" id="date">
+                <div class="promptButtonContainer">
+                    <button type="button" id="addTaskAdd" class="addButton">Add</button>
+                    <button type="button" id="addTaskCancel" class="cancelButton">Cancel</button>
+                </div>
                 </form>
             </div>
+
+            <div id="taskContainer"></div>
+
         </div>
     </div>
 </body>
