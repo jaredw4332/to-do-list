@@ -182,8 +182,6 @@ button {
 	font-size: 18px;
 }
 
-/* could have task desc hidden, and appear on clicking task container */
-
 .taskDesc {
 	grid-area: 2 / 1 / 3 / 2;
 }
