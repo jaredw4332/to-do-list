@@ -53,16 +53,37 @@ table {
 
 /* CROSS SECTION STYLE */
 
+:root {
+	--titlefont: "titlefont", Impact, Haettenschweiler, 'Arial Narrow Bold', cursive, sans-serif;
+	--regfont: "regfont", "regfont", 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	--fancyfont: "fancyfont", Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+@font-face {
+	font-family: "titlefont";
+	src: url('media/PermanentMarker-Regular.ttf');
+}
+
+@font-face {
+	font-family: "regfont";
+	src: url('media/SplineSans-VariableFont_wght.ttf');
+}
+
+@font-face {
+	font-family: "fancyfont";
+	src: url('media/Corben-Regular.ttf');
+}
 
 #container {
     height: 100vh;
     display: grid;
     grid-template-rows: 1fr 8fr;
     grid-template-columns: 1fr 4fr;
+	font-family: var(--regfont);
 }
 
-.hidden {
-	display: none;
+button {
+	font-family: var(--regfont);
 }
 
 
@@ -79,13 +100,15 @@ table {
 }
 
 #headerTitle {
-	font-size: 40px;
+	font-size: 60px;
 	font-weight: 700;
+	font-family: var(--titlefont);
 }
 
 #sidebarToggle {
 	justify-self: center;
 }
+
 
 /* SIDEBAR STYLE */
 
@@ -96,6 +119,7 @@ table {
 }
 
 #projectPrompt {
+	display: none;
 	background-color: aqua;
 	padding: 5px;
 }
@@ -111,7 +135,13 @@ table {
 	gap: 10px;
 }
 
+.project {
+	min-height: 20px;
+}
+
+
 /* MAIN STYLE */
+
 
 #mainTitle {
 	font-size: 30px;
@@ -119,9 +149,11 @@ table {
 	background-color: blue;
 	padding: 50px;
 	justify-self: center;
+	font-family: var(--fancyfont);
 }
 
 #taskPrompt {
+	display: none;
 	background-color: limegreen;
 	padding: 20px;
 }
