@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Git 'er Done</title>
+    <title>Git 'er Done!</title>
     <script src="main.js" defer></script>
 </head>
 <body>
     <div id="container">
         <div id="header">
             <button id="sidebarToggle"></button>
-            <h1 id="headerTitle">Git 'er Done</h1>
+            <h1 id="headerTitle">Git 'er Done!</h1>
         </div>
 
         <div id="sidebar">
-            <p>Tasks</p>
+            <p>Projects</p>
 
-            <button type="button">New Project</button>
+            <button type="button" id="newProjectButton">New Project</button>
 
             <div id="projectPrompt" class="">
                 <form id="projectInput">
@@ -39,7 +39,7 @@
 
             <button type="button" id="newTaskButton">New task</button>
 
-            <div id="taskPrompt" class="hidden">
+            <div id="taskPrompt">
                 <form id="taskInput">
                     <label for="task">The What:</label>
                     <input type="text" name="task" id="task" placeholder="What needs to get done?">
