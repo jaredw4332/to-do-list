@@ -4,7 +4,17 @@ import './style.css'
 // tying stuff together, like with event listeners
 // figure out what makes the most sense as you go along
 
+// task sorted and displayed via looping through arrays
+// clicking projects will activate that project's "mode"
+// automatically adding every new task to that
+// delete function loops through project array, targetting certain element,
+// similar to tic tac toe winning logic
 
+
+let allTaskArray = []
+let allProjectArray = []
+
+//task
 const getTaskValues = () => {
     let taskName = document.getElementById('task').value
     let taskDesc = document.getElementById('desc').value
@@ -19,6 +29,8 @@ const taskMaker = (name, desc, date) => {
 
 const taskContainer = document.getElementById('taskContainer')
 
+
+//display
 const displayTask = (task) => {
     let newTask = document.createElement('div')
     newTask.classList.add('newTaskContainer')
@@ -39,68 +51,82 @@ const createThing = (text, type, group, parent) => {
     parent.appendChild(newThing)
 }
 
-
-
 const taskPrompt = document.getElementById("taskPrompt")
 const newTaskButton = document.getElementById("newTaskButton")
 const addTaskCancel = document.getElementById("addTaskCancel")
 const addTaskAdd = document.getElementById("addTaskAdd")
 
-const taskPromptReveal = () => {
-    taskPrompt.classList.remove("hidden")
-    newTaskButton.classList.add("hidden")
-}
-
-const taskPromptHide = () => {
-    taskPrompt.classList.add("hidden")
-    newTaskButton.classList.remove("hidden")
-}
-
-//temp
-const funnyFunction = () => {
-    let funnyArray = getTaskValues()
-    let funnyTask = taskMaker(funnyArray[0], funnyArray[1], funnyArray[2])
-    displayTask(funnyTask)
-    return false
-}
-
-
-newTaskButton.addEventListener("click", taskPromptReveal)
-addTaskCancel.addEventListener("click", taskPromptHide)
-addTaskAdd.addEventListener("click", funnyFunction)
-
-
-let newTask = taskMaker("Do laundry", "I need to wash all my socks", "2023-01-01")
-displayTask(newTask)
-
-const sidebar = document.getElementById("sidebar")
-const sidebarToggleButton = document.getElementById("sidebarToggle")
-
-const toggleThing = (element) => {
-    if (element.style.display != 'none') {
-        element.style.display = 'none'
+const toggleTaskPrompt = () => {
+    if (taskPrompt.style.display != 'block') {
+        taskPrompt.style.display = 'block'
     } else {
-        element.style.display = block
+        taskPrompt.style.display = 'none'
     }
 }
 
-// sidebarToggleButton.addEventListener("click", toggleThing(sidebar))
-// figure out applicable grid layout
 
-// project maker logic
-// just assign things certain classes and make them appear via selection of those
-//projects on the side
-// projects can simply be buttons
-// depending which project is "active" is what will be shown
-// or just uhh use arrays
 
+//tying it all together
+const taskAdd = () => {
+    let taskArray = getTaskValues()
+    let task = taskMaker(taskArray[0], taskArray[1], taskArray[2])
+    displayTask(task)
+    clearInput("taskInput")
+    toggleTaskPrompt()
+}
+
+
+// page functionality
+newTaskButton.addEventListener("click", toggleTaskPrompt)
+addTaskCancel.addEventListener("click", toggleTaskPrompt)
+addTaskAdd.addEventListener("click", taskAdd)
+
+//example
+let newTask = taskMaker("Do laundry", "I need to wash all my socks", "2023-01-01")
+displayTask(newTask)
+
+
+// display
+const sidebar = document.getElementById("sidebar")
+const sidebarToggleButton = document.getElementById("sidebarToggle")
+const main = document.getElementById("main")
+
+const toggleSidebar = () => {
+    if (sidebar.style.display != 'none') {
+        sidebar.style.display = 'none'
+        main.style.gridColumn = " 1 / 3 "
+    } else {
+        sidebar.style.display = 'block'
+        main.style.gridColumn = " 2 / 3 "
+    }
+}
+
+sidebarToggleButton.addEventListener("click", toggleSidebar)
+
+const newProjectButton = document.getElementById("newProjectButton")
+const projectPrompt = document.getElementById("projectPrompt")
+const addProjectCancel = document.getElementById("addProjectCancel")
+
+const toggleProjectPrompt = () => {
+    if (projectPrompt.style.display != 'block') {
+        projectPrompt.style.display = 'block'
+    } else {
+        projectPrompt.style.display = 'none'
+    }
+}
+
+newProjectButton.addEventListener("click", toggleProjectPrompt)
+addProjectCancel.addEventListener("click", toggleProjectPrompt)
+
+const clearInput = (formID) => {
+    document.getElementById(formID).reset()
+}
+
+
+// project logic
 const getProjectValues = () => {
     return document.getElementById('title').value
 }
-
-//const projectMaker = (title) => {
-//    return { title }
-//}
 
 const projectArray = (title) => {
     title = []
@@ -108,7 +134,7 @@ const projectArray = (title) => {
 }
 
 
-
+//display
 const projectContainer = document.getElementById('projectContainer')
 
 const projectDisplay = (project) => {
@@ -122,12 +148,14 @@ const projectDisplayTasks = (array) => {
 }
 
 
-
+// project logic
 const projectAdd = () => {
     let newProject = getProjectValues()
-    console.log(newProject)
+    projectArray(newProject)
     projectDisplay(newProject)
+    clearInput("projectInput")
+    toggleProjectPrompt()
 }
 
-const addProjectButton = document.getElementById('addProjectAdd')
-addProjectButton.addEventListener("click", projectAdd)
+const addProjectAdd = document.getElementById('addProjectAdd')
+addProjectAdd.addEventListener("click", projectAdd)
