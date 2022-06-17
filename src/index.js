@@ -130,7 +130,7 @@ const getProjectValues = () => {
 
 const projectArray = (title) => {
     title = []
-    return { title }
+    title.push(allProjectArray)
 }
 
 
@@ -138,7 +138,11 @@ const projectArray = (title) => {
 const projectContainer = document.getElementById('projectContainer')
 
 const projectDisplay = (project) => {
-    createThing(project, 'button', "project", projectContainer)
+    let newProject = document.createElement('button')
+    newProject.textContent = project
+    newProject.classList.add('project')
+    projectContainer.appendChild(newProject)
+    return newProject
 }
 
 const projectDisplayTasks = (array) => {
@@ -147,14 +151,34 @@ const projectDisplayTasks = (array) => {
     }
 }
 
+const projectButtonFunction = (project) => {
+    project.onclick = projectActivate(project)
+}
+
+const projectActivate = (project) => {
+    projectDeactivate()
+    project.classList.add('activeProject')
+}
+
+const projectDeactivate = () => {
+    let projectList = document.getElementsByClassName("project")
+    for (let item of projectList) {
+        item.classList.remove('activeProject')
+    }
+}
+
+// task adder searches for activeproject class, and adds it to wherever it finds it
+// if it finds one it means it's a general task
+
 
 // project logic
 const projectAdd = () => {
     let newProject = getProjectValues()
     projectArray(newProject)
-    projectDisplay(newProject)
+    newProject = projectDisplay(newProject)
     clearInput("projectInput")
     toggleProjectPrompt()
+    projectButtonFunction(newProject)
 }
 
 const addProjectAdd = document.getElementById('addProjectAdd')
