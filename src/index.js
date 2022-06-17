@@ -152,13 +152,12 @@ const projectDisplayTasks = (array) => {
 }
 
 const projectButtonFunction = (project) => {
-    project.onclick = projectActivate(project)
+    project.addEventListener("click", function() {
+        projectDeactivate()
+        project.classList.add('activeProject')
+    })
 }
 
-const projectActivate = (project) => {
-    projectDeactivate()
-    project.classList.add('activeProject')
-}
 
 const projectDeactivate = () => {
     let projectList = document.getElementsByClassName("project")
@@ -168,7 +167,7 @@ const projectDeactivate = () => {
 }
 
 // task adder searches for activeproject class, and adds it to wherever it finds it
-// if it finds one it means it's a general task
+// if it cant find one it means it's a general task
 
 
 // project logic
