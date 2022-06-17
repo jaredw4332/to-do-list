@@ -144,7 +144,7 @@ button {
 	padding: 20px;
 	display: grid;
 	grid-auto-rows: min-content;
-	gap: 10px;
+	gap: 20px;
 }
 
 #mainTitle {
@@ -154,10 +154,17 @@ button {
 	padding: 50px;
 }
 
+#newTaskButton {
+	font-size: 18px;
+	height: 120%;
+	border-radius: 50px;
+}
+
 #taskPrompt {
 	display: none;
 	background-color: limegreen;
 	padding: 20px;
+	border-radius: 5px;
 }
 
 #taskInput {
@@ -177,7 +184,7 @@ button {
 	grid-template-columns: 3fr 2fr repeat(3, 1fr);
 	align-items: center;
 	padding: 8px;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 }
 
 .taskName {
