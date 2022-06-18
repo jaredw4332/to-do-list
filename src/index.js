@@ -12,7 +12,7 @@ import './style.css'
 
 
 let allTaskArray = []
-let allProjectArray = []
+let mainArray = undefined
 
 //task
 const getTaskValues = () => {
@@ -64,6 +64,15 @@ const toggleTaskPrompt = () => {
     }
 }
 
+const addTaskToArray = (task) => {
+    allTaskArray.push(task)
+    let activeButton = document.getElementsByClassName('activeProject')
+        if (activeButton == undefined) {
+            return
+        } else {
+            mainArray.push(task)
+        }
+}
 
 
 //tying it all together
@@ -71,6 +80,7 @@ const taskAdd = () => {
     let taskArray = getTaskValues()
     let task = taskMaker(taskArray[0], taskArray[1], taskArray[2])
     displayTask(task)
+    addTaskToArray(task)
     clearInput("taskInput")
     toggleTaskPrompt()
 }
@@ -128,41 +138,66 @@ const getProjectValues = () => {
     return document.getElementById('title').value
 }
 
-const projectArray = (title) => {
-    title = []
-    title.push(allProjectArray)
-}
-
 
 //display
 const projectContainer = document.getElementById('projectContainer')
 
+const projectMaker = (title) => {
+    const tasks = []
+    return {title, tasks}
+}
+
 const projectDisplay = (project) => {
-    let newProject = document.createElement('button')
+    let newProject = document.createElement('div')
     newProject.textContent = project
     newProject.classList.add('project')
     projectContainer.appendChild(newProject)
+
     return newProject
 }
 
-const projectDisplayTasks = (array) => {
-    for (let i = 0; i < array.length; i++) {
-        displayTask(array[i])
-    }
-}
+const projectDeleteButton = (button, array) => {
+    let projectDelete = document.createElement('button')
+    projectDelete.classList.add('projectDelete')
+    button.appendChild(projectDelete)
 
-const projectButtonFunction = (project) => {
-    project.addEventListener("click", function() {
-        projectDeactivate()
-        project.classList.add('activeProject')
+    projectDelete.addEventListener("click", function() {
+        array = []
+        projectContainer.removeChild(button)
+        projectDisplayTasks(button, array)
     })
 }
 
+const projectActiveButton = (project, array) => {
+    project.addEventListener("click", function() {
+        mainArray = array
+        projectDeactivate()
+        project.classList.add('activeProject')
+        project.disabled = true
+    })
+}
+
+const projectDisplayTasks = (button, array) => {
+    button.addEventListener("click", function() {
+        projectHideTasks()
+        for (let i = 0; i < array.length; i++) {
+            displayTask(array[i])
+        }
+    })
+}
+
+const projectHideTasks = () => {
+    let activeTasks = document.getElementsByClassName('newTaskContainer')
+    for (let i=activeTasks.length-1; i>=0; i--) {
+        taskContainer.removeChild(activeTasks[i])
+    }
+}
 
 const projectDeactivate = () => {
     let projectList = document.getElementsByClassName("project")
     for (let item of projectList) {
         item.classList.remove('activeProject')
+        item.disabled = false
     }
 }
 
@@ -173,11 +208,13 @@ const projectDeactivate = () => {
 // project logic
 const projectAdd = () => {
     let newProject = getProjectValues()
-    projectArray(newProject)
-    newProject = projectDisplay(newProject)
+    newProject = projectMaker(newProject)
+    let newProjectButton = projectDisplay(newProject.title)
+    projectActiveButton(newProjectButton, newProject.tasks)
+    projectDisplayTasks(newProjectButton, newProject.tasks)
+    projectDeleteButton(newProjectButton, newProject.tasks)
     clearInput("projectInput")
     toggleProjectPrompt()
-    projectButtonFunction(newProject)
 }
 
 const addProjectAdd = document.getElementById('addProjectAdd')
