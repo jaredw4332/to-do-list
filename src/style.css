@@ -101,6 +101,11 @@ button {
 
 #sidebarToggle {
 	justify-self: center;
+	background-image: url("media/bars.svg");
+	height: 40px;
+	width: 40px;
+	border: none;
+	background-color: transparent;
 }
 
 
@@ -110,6 +115,11 @@ button {
 #sidebar {
     grid-area: 2 / 1 / 3 / 2;
     background-color: rgba(236, 44, 44, 0.2);
+}
+
+#sidebarMain {
+	display: grid;
+	grid-auto-rows: 20px;
 }
 
 #projectPrompt {
@@ -135,6 +145,12 @@ button {
 
 .activeProject {
 	background-color: blueviolet;
+}
+
+.projectDelete {
+	background-image: url("media/delete.svg");
+	height: 18px;
+	width: 18px;
 }
 
 
@@ -198,4 +214,29 @@ button {
 
 .taskDate, .taskCheck, .taskDelete, .taskPriority {
 	grid-row: 1 / 3;
+}
+
+.taskCheck, .taskDelete, .taskPriority {
+	height: 30px;
+	width: 30px;
+	border: none;
+	background-color: transparent;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.taskPriority {
+	background-image: url("media/star.svg");
+}
+
+.taskDelete {
+	background-image: url("media/delete.svg");
+}
+
+.taskCheck {
+	background-image: url("media/check.svg");
+}
+
+.taskPriorityActive {
+	filter: invert(79%) sepia(69%) saturate(1155%) hue-rotate(358deg) brightness(100%) contrast(106%);
 }
