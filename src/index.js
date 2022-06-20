@@ -13,7 +13,6 @@ import './style.css'
 
 const allTaskArray = []
 const priorityArray = []
-const allProjectArray = []
 let mainArray = undefined
 
 //task
@@ -71,11 +70,20 @@ const deleteTaskButton = (parent, task) => {
         let index = allTaskArray.indexOf(task)
         allTaskArray.splice(index, 1)
         taskContainer.removeChild(parent)
+        if (mainArray == allTaskArray) {
+            return
+        } else {
+            let index = mainArray.indexOf(task)
+            mainArray.splice(index, 1)
+        }
     })
 }
 
 const checkPriority = (button, task) => {
-    if (priorityArray.indexOf(task) > -1){
+    if (priorityArray.indexOf(task) > -1) {
+        button.classList.add("taskPriorityActive")
+    }
+    if (mainArray == priorityArray) {
         button.classList.add("taskPriorityActive")
     }
 }
@@ -116,7 +124,7 @@ const taskAdd = () => {
     let taskArray = getTaskValues()
     let task = taskMaker(taskArray[0], taskArray[1], taskArray[2])
     let taskDiv = displayTask(task)
-    addTaskToArray(task)
+    addTaskToArray(task, taskDiv)
     clearInput("taskInput")
     toggleTaskPrompt()
 }
@@ -194,9 +202,19 @@ const projectDeleteButton = (button, array) => {
     button.appendChild(projectDelete)
 
     projectDelete.addEventListener("click", function() {
+        array.forEach(function(task) {
+            let index = allTaskArray.indexOf(task)
+            if (index != -1) {
+                allTaskArray.splice(index, 1)
+            }
+            index = priorityArray.indexOf(task)
+            if (index != -1) {
+                priorityArray.splice(index, 1)
+            }
+        })
         array = []
         projectContainer.removeChild(button)
-        projectDisplayTasks(button, array)
+        allSection.click()
     })
 }
 
@@ -258,7 +276,7 @@ const customProjectAdd = (title, array) => {
     let customProjectButton = projectDisplay(title, sidebarMain)
     projectClickHandler(customProjectButton, array, title)
     projectDisplayTasks(customProjectButton, array)
-    // remove from final project but keep to style delete button
+    // remove from final project but keep to reference delete button style
     projectDeleteButton(customProjectButton, array)
     return customProjectButton
 }
@@ -273,6 +291,11 @@ const projectAppendTitle = (title) => {
     mainTitle.textContent = title
 }
 
-customProjectAdd("All", allTaskArray).click()
+const allSection = customProjectAdd("All", allTaskArray)
+allSection.click()
 customProjectAdd("Priority", priorityArray)
-displayTask("cheese")
+let cheese = taskMaker("cheese", "sniff cheese", "2021-08-33")
+displayTask(cheese)
+
+toggleProjectPrompt()
+toggleTaskPrompt()
