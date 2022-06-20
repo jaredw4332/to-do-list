@@ -56,6 +56,18 @@ table {
 :root {
 	--titlefont: "titlefont", Impact, Haettenschweiler, 'Arial Narrow Bold', cursive, sans-serif;
 	--regfont: "regfont", "regfont", 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	--strongblue: #60a5fa;
+	--coolblue: #bfdbfe;
+	--darkcoolblue: #93c5fd;
+	--greyblue: #dbeafe;
+	--offwhite: #eff6ff;
+	--indigo: #818cf8;
+	--lightindigo: #e0e7ff;
+	--easyblue: #c7d2fe;
+	--slate: #1e293b;
+	--green: #86efac;
+	--red: #fda4af;
+	--banana: #fde68a;
 }
 
 @font-face {
@@ -74,19 +86,45 @@ table {
     grid-template-rows: 1fr 8fr;
     grid-template-columns: 1fr 4fr;
 	font-family: var(--regfont);
+	color: var(--slate);
 }
 
 button {
 	font-family: var(--regfont);
+	color: var(--slate);
+	cursor: pointer;
+	border: none;
+	border-radius: 5px;
 }
 
+.newButton {
+	background-color: var(--banana);
+}
+
+.newButtonIcon {
+	padding-right: 3px;
+	font-weight: 700;
+}
+
+.inputButton {
+	padding: 8px;
+}
+
+.addButton {
+	background-color: var(--green);
+}
+
+.cancelButton {
+	background-color: var(--red);
+}
 
 /* HEADER STYLE */
 
 
 #header {
     grid-area: 1 / 1 / 2 / 3;
-    background-color: rgba(100, 100, 100, 20%);
+	color: var(--offwhite);
+    background-color: var(--strongblue);
 	display: grid;
 	grid-template-columns: 1fr 4fr;
 	justify-items: baseline;
@@ -114,17 +152,22 @@ button {
 
 #sidebar {
     grid-area: 2 / 1 / 3 / 2;
-    background-color: rgba(236, 44, 44, 0.2);
+    background-color: var(--coolblue);
+	display: grid;
+	grid-auto-rows: min-content;
+	gap: 10px;
+	padding: 20px;
 }
 
 #sidebarMain {
 	display: grid;
-	grid-auto-rows: 20px;
+	grid-auto-rows: min-content;
+	gap: 5px;
 }
 
 #projectPrompt {
 	display: none;
-	background-color: aqua;
+	background-color: var(--greyblue);
 	padding: 5px;
 }
 
@@ -139,16 +182,33 @@ button {
 	gap: 10px;
 }
 
+#projectTitle {
+	font-size: 24px;
+	font-weight: 700;
+}
+
 .project {
-	min-height: 20px;
+	padding: 10px;
+	margin: 0px 10px 0px 10px;
+	border-radius: 5px;
+	background: none;
+	border: none;
+	display: flex;
+	justify-content: space-between;
+	font-size: 18px;
+}
+
+.project:hover {
+	background-color: var(--darkcoolblue);
 }
 
 .activeProject {
-	background-color: blueviolet;
+	background-color: var(--darkcoolblue);
 }
 
 .projectDelete {
 	background-image: url("media/delete.svg");
+	background-color: transparent;
 	height: 18px;
 	width: 18px;
 }
@@ -157,6 +217,7 @@ button {
 /* MAIN STYLE */
 
 #main {
+	background-color: var(--offwhite);
 	padding: 20px;
 	display: grid;
 	grid-auto-rows: min-content;
@@ -166,19 +227,22 @@ button {
 #mainTitle {
 	font-size: 40px;
 	font-weight: 700;
-	background-color: blue;
+	color: var(--offwhite);
+	background-color: var(--indigo);
 	padding: 50px;
 }
 
 #newTaskButton {
 	font-size: 18px;
-	height: 120%;
-	border-radius: 50px;
+	border-radius: 5px;
+	width: fit-content;
+	padding: 5px;
 }
 
 #taskPrompt {
 	display: none;
-	background-color: limegreen;
+	color: var(--slate);
+	background-color: var(--lightindigo);
 	padding: 20px;
 	border-radius: 5px;
 }
@@ -194,7 +258,7 @@ button {
 }
 
 .newTaskContainer {
-	background-color: brown;
+	background-color: var(--easyblue);
 	display: grid;
 	grid-template-rows: repeat(2, 1fr);
 	grid-template-columns: 3fr 2fr repeat(3, 1fr);
@@ -227,6 +291,7 @@ button {
 
 .taskPriority {
 	background-image: url("media/star.svg");
+	/* color should be slightly darker than background, so it looks indented */
 }
 
 .taskDelete {
@@ -238,5 +303,4 @@ button {
 }
 
 .taskPriorityActive {
-	filter: invert(79%) sepia(69%) saturate(1155%) hue-rotate(358deg) brightness(100%) contrast(106%);
-}
+	filter: invert(38%) sepia(86%) saturate(3949%) hue-rotate(272deg) brightness(105%) contrast(87%);}
