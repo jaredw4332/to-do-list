@@ -15,17 +15,20 @@
         </div>
 
         <div id="sidebar">
-            <p>Projects</p>
+            <div id="sidebarMain"></div>
+            <h3 id="projectTitle">Projects</h3>
 
-            <button type="button" id="newProjectButton">New Project</button>
+            <button type="button" id="newProjectButton" class="newButton">
+                <span class="newButtonIcon">➕ </span>
+                New Project</button>
 
             <div id="projectPrompt" class="">
                 <form id="projectInput">
                     <label for="title">The Which:</label>
-                    <input type="text" name="title" id="title" placeholder="Which tasks will go in here?">
+                    <input type="text" name="title" id="title" maxlength="24" placeholder="Which tasks will go in here?">
                     <div class="promptButtonContainer">
-                    <button type="button" id="addProjectAdd" class="addButton">Add</button>
-                    <button type="button" id="addProjectCancel" class="cancelButton">Cancel</button>
+                    <button type="button" id="addProjectAdd" class="addButton inputButton">Add</button>
+                    <button type="button" id="addProjectCancel" class="cancelButton inputButton">Cancel</button>
                     </div>
                 </form>
             </div>
@@ -35,14 +38,16 @@
         </div>
 
         <div id="main">
-            <h2 id="mainTitle">Things</h2>
+            <h2 id="mainTitle"></h2>
 
-            <button type="button" id="newTaskButton">New task</button>
+            <button type="button" id="newTaskButton" class="newButton">
+                <span class="newButtonIcon">➕ </span>
+                New Task</button>
 
             <div id="taskPrompt">
                 <form id="taskInput">
                     <label for="task">The What:</label>
-                    <input type="text" name="task" id="task" placeholder="What needs to get done?">
+                    <input type="text" name="task" id="task" maxlength="28" placeholder="What needs to get done?">
                     
                     <label for="desc">The What Else:</label>
                     <input type="text" name="desc" id="desc" placeholder="What else is worth mentioning?">
@@ -50,8 +55,8 @@
                     <label for="date">The When:</label>
                     <input type="date" name="date" id="date">
                 <div class="promptButtonContainer">
-                    <button type="button" id="addTaskAdd" class="addButton">Add</button>
-                    <button type="button" id="addTaskCancel" class="cancelButton">Cancel</button>
+                    <button type="button" id="addTaskAdd" class="addButton inputButton">Add</button>
+                    <button type="button" id="addTaskCancel" class="cancelButton inputButton">Cancel</button>
                 </div>
                 </form>
             </div>
