@@ -63,16 +63,18 @@ table {
 	--offwhite: #eff6ff;
 	--indigo: #818cf8;
 	--lightindigo: #e0e7ff;
+	--deepindigo: #4338ca;
 	--easyblue: #c7d2fe;
 	--slate: #1e293b;
 	--green: #86efac;
 	--red: #fda4af;
 	--banana: #fde68a;
+	--ghostbanana: #fef3c7;
 }
 
 @font-face {
 	font-family: "titlefont";
-	src: url('media/PermanentMarker-Regular.ttf');
+	src: url('media/Bangers-Regular.ttf');
 }
 
 @font-face {
@@ -95,6 +97,26 @@ button {
 	cursor: pointer;
 	border: none;
 	border-radius: 5px;
+}
+
+label {
+	font-size: 18px;
+}
+
+input {
+	height: 25px;
+	font-size: 15px;
+	border: 2px solid var(--indigo);
+	background-color: var(--ghostbanana);
+	border-radius: 5px;
+}
+
+input:focus {
+	outline-color: var(--deepindigo);
+}
+
+input[type=date] {
+	font-family: var(--regfont);
 }
 
 .newButton {
@@ -133,7 +155,7 @@ button {
 
 #headerTitle {
 	font-size: 60px;
-	font-weight: 700;
+	font-weight: 400;
 	font-family: var(--titlefont);
 }
 
@@ -155,8 +177,9 @@ button {
     background-color: var(--coolblue);
 	display: grid;
 	grid-auto-rows: min-content;
-	gap: 10px;
-	padding: 20px;
+	gap: 15px;
+	padding: 25px;
+	min-width: 217px;
 }
 
 #sidebarMain {
@@ -165,15 +188,42 @@ button {
 	gap: 5px;
 }
 
+.projectImg {
+	height: 22px;
+	width: 22px;
+}
+
+#PriorityImg {
+	background-image: url("media/star.svg");
+}
+
+#AllImg {
+	background-image: url("media/home.svg");
+}
+
+#projectTitle {
+	font-size: 26px;
+	font-weight: 700;
+	margin-top: 10px;
+}
+
+#newProjectButton {
+	width: fit-content;
+	font-size: 15px;
+	padding: 8px;
+}
+
 #projectPrompt {
 	display: none;
 	background-color: var(--greyblue);
-	padding: 5px;
+	border-radius: 5px;
 }
 
 #projectInput {
 	display: flex;
 	flex-direction: column;
+	padding: 5px;
+	gap: 5px;
 }
 
 #projectContainer {
@@ -182,20 +232,15 @@ button {
 	gap: 10px;
 }
 
-#projectTitle {
-	font-size: 24px;
-	font-weight: 700;
-}
-
 .project {
 	padding: 10px;
-	margin: 0px 10px 0px 10px;
 	border-radius: 5px;
 	background: none;
 	border: none;
 	display: flex;
 	justify-content: space-between;
-	font-size: 18px;
+	align-items: center;
+	font-size: 20px;
 }
 
 .project:hover {
@@ -204,6 +249,7 @@ button {
 
 .activeProject {
 	background-color: var(--darkcoolblue);
+	font-weight: 700;
 }
 
 .projectDelete {
@@ -211,6 +257,7 @@ button {
 	background-color: transparent;
 	height: 18px;
 	width: 18px;
+	justify-self: end;
 }
 
 
@@ -230,13 +277,14 @@ button {
 	color: var(--offwhite);
 	background-color: var(--indigo);
 	padding: 50px;
+	border-radius: 5px;
 }
 
 #newTaskButton {
 	font-size: 18px;
 	border-radius: 5px;
 	width: fit-content;
-	padding: 5px;
+	padding: 10px;
 }
 
 #taskPrompt {
@@ -250,7 +298,11 @@ button {
 #taskInput {
 	display: flex;
 	flex-direction: column;
-	gap: 5px;
+	gap: 8px;
+}
+
+#taskInput > input {
+	margin-bottom: 4px;
 }
 
 .promptButtonContainer {
@@ -260,11 +312,21 @@ button {
 .newTaskContainer {
 	background-color: var(--easyblue);
 	display: grid;
-	grid-template-rows: repeat(2, 1fr);
-	grid-template-columns: 3fr 2fr repeat(3, 1fr);
+	grid-template-rows: repeat(2, min-content);
+	grid-template-columns: 1fr 5fr 2fr repeat(2, 1fr);
+	border-radius: 5px;
 	align-items: center;
 	padding: 8px;
 	margin-bottom: 20px;
+	min-height: 46px;
+	max-height: 46px;
+	overflow: hidden;
+	transition: all 0.8s ease-in-out;
+}
+
+.newTaskContainer:hover {
+	height: fit-content;
+	max-height: 1000px;
 }
 
 .taskName {
@@ -272,12 +334,17 @@ button {
 	font-size: 18px;
 }
 
-.taskDesc {
-	grid-area: 2 / 1 / 3 / 2;
+.taskCheck {
+	grid-area: 1 / 1 / 2 / 2;
+	justify-self: center;
 }
 
-.taskDate, .taskCheck, .taskDelete, .taskPriority {
-	grid-row: 1 / 3;
+.taskName {
+	grid-column: 2 / 3;
+}
+
+.taskDesc {
+	grid-area: 2 / 2 / 3 / 3;
 }
 
 .taskCheck, .taskDelete, .taskPriority {
