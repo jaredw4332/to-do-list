@@ -40,9 +40,22 @@ const displayTask = (task) => {
     let newTaskName = createThing(task.name, 'p', "taskName", newTask)
     let newTaskDesc = createThing(task.desc, 'p', "taskDesc", newTask)
     let newTaskDate = createThing(task.date, 'p', "taskDate", newTask)
-    let checkmark = createThing('', 'button', "taskCheck", newTask)
+    completeButton(newTask)
     priorityTaskButton(newTask, task)
     deleteTaskButton(newTask, task)
+}
+
+const completeButton = (parent) => {
+    let completeTask = document.createElement('button')
+    completeTask.classList.add("taskCheck")
+    parent.appendChild(completeTask)
+    completeTask.addEventListener("click", function() {
+        if (parent.classList.contains("completedTask")) {
+            parent.classList.remove("completedTask")
+        } else {
+            parent.classList.add("completedTask")
+        }
+    })
 }
 
 const priorityTaskButton = (parent, task) => {    
@@ -103,8 +116,10 @@ const addTaskAdd = document.getElementById("addTaskAdd")
 const toggleTaskPrompt = () => {
     if (taskPrompt.style.display != 'block') {
         taskPrompt.style.display = 'block'
+        newTaskButton.style.display = 'none'
     } else {
         taskPrompt.style.display = 'none'
+        newTaskButton.style.display = 'block'
     }
 }
 
@@ -160,8 +175,10 @@ const addProjectCancel = document.getElementById("addProjectCancel")
 const toggleProjectPrompt = () => {
     if (projectPrompt.style.display != 'block') {
         projectPrompt.style.display = 'block'
+        newProjectButton.style.display ='none'
     } else {
         projectPrompt.style.display = 'none'
+        newProjectButton.style.display ='block'
     }
 }
 
@@ -201,6 +218,14 @@ const projectDeleteButton = (button, array) => {
     projectDelete.classList.add('projectDelete')
     button.appendChild(projectDelete)
 
+    button.addEventListener("mouseover", function(){
+        projectDelete.style.display = "block"
+    })
+
+    button.addEventListener("mouseout", function(){
+        projectDelete.style.display = "none"
+    })
+
     projectDelete.addEventListener("click", function() {
         array.forEach(function(task) {
             let index = allTaskArray.indexOf(task)
@@ -235,9 +260,7 @@ const projectActivate = (project) => {
 const projectDisplayTasks = (button, array) => {
     button.addEventListener("click", function() {
         projectHideTasks()
-        for (let i = array.length-1; i >= 0; i--) {
-            displayTask(array[i])
-        }
+        array.forEach(item => displayTask(item))
     })
 }
 
@@ -255,6 +278,13 @@ const projectDeactivate = () => {
         item.classList.remove('activeProject')
         item.disabled = false
     }
+}
+
+const projectImgSpan = (button, id) => {
+    let imgSpan = document.createElement('span')
+    imgSpan.classList.add("projectImg")
+    imgSpan.setAttribute("id", `${id}Img`)
+    button.appendChild(imgSpan)
 }
 
 // project logic
@@ -277,7 +307,7 @@ const customProjectAdd = (title, array) => {
     projectClickHandler(customProjectButton, array, title)
     projectDisplayTasks(customProjectButton, array)
     // remove from final project but keep to reference delete button style
-    projectDeleteButton(customProjectButton, array)
+    projectImgSpan(customProjectButton, title)
     return customProjectButton
 }
 
@@ -294,8 +324,10 @@ const projectAppendTitle = (title) => {
 const allSection = customProjectAdd("All", allTaskArray)
 allSection.click()
 customProjectAdd("Priority", priorityArray)
-let cheese = taskMaker("cheese", "sniff cheese", "2021-08-33")
-displayTask(cheese)
 
-toggleProjectPrompt()
-toggleTaskPrompt()
+let other = taskMaker("json and dates", "definitely add json stuff, take a look at calendar stuff, consider adding", "2022-22-06")
+displayTask(other)
+let bobobobo = taskMaker("add completedTask style", "consider fading it and striking through all the text or just the title", "2022-21-06")
+displayTask(bobobobo)
+let hi = taskMaker("empty project name", "make it so trash can appears on far right regardless of name. try adding class to icons")
+displayTask(hi)
