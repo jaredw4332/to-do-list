@@ -166,6 +166,7 @@ input[type=date] {
 	width: 40px;
 	border: none;
 	background-color: transparent;
+	filter: invert(14%) sepia(10%) saturate(2318%) hue-rotate(179deg) brightness(91%) contrast(93%);
 }
 
 
@@ -191,14 +192,17 @@ input[type=date] {
 .projectImg {
 	height: 22px;
 	width: 22px;
+	justify-self: end;
 }
 
 #PriorityImg {
 	background-image: url("media/star.svg");
+	filter: invert(14%) sepia(10%) saturate(2318%) hue-rotate(179deg) brightness(91%) contrast(93%);
 }
 
 #AllImg {
 	background-image: url("media/home.svg");
+	filter: invert(14%) sepia(10%) saturate(2318%) hue-rotate(179deg) brightness(91%) contrast(93%);
 }
 
 #projectTitle {
@@ -211,6 +215,7 @@ input[type=date] {
 	width: fit-content;
 	font-size: 15px;
 	padding: 8px;
+	box-shadow: 2px 2px var(--slate);
 }
 
 #projectPrompt {
@@ -237,9 +242,10 @@ input[type=date] {
 	border-radius: 5px;
 	background: none;
 	border: none;
-	display: flex;
-	justify-content: space-between;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
 	align-items: center;
+	justify-items: baseline;
 	font-size: 20px;
 }
 
@@ -258,6 +264,8 @@ input[type=date] {
 	height: 18px;
 	width: 18px;
 	justify-self: end;
+	grid-column: 2 / 3;
+	filter: invert(14%) sepia(10%) saturate(2318%) hue-rotate(179deg) brightness(91%) contrast(93%);
 }
 
 
@@ -285,6 +293,7 @@ input[type=date] {
 	border-radius: 5px;
 	width: fit-content;
 	padding: 10px;
+	box-shadow: 2px 2px var(--slate);
 }
 
 #taskPrompt {
@@ -354,6 +363,7 @@ input[type=date] {
 	background-color: transparent;
 	background-position: center;
 	background-repeat: no-repeat;
+	filter: invert(14%) sepia(10%) saturate(2318%) hue-rotate(179deg) brightness(91%) contrast(93%);
 }
 
 .taskPriority {
@@ -370,4 +380,18 @@ input[type=date] {
 }
 
 .taskPriorityActive {
-	filter: invert(38%) sepia(86%) saturate(3949%) hue-rotate(272deg) brightness(105%) contrast(87%);}
+	filter: invert(38%) sepia(86%) saturate(3949%) hue-rotate(272deg) brightness(105%) contrast(87%);
+}
+
+.completedTask {
+	opacity: 50%;
+}
+
+.completedTask > p:first-child {
+	text-decoration: line-through 2px;
+}
+
+.completedTask > .taskCheck {
+	background-image: url("media/checkfull.svg");
+	filter: invert(38%) sepia(86%) saturate(3949%) hue-rotate(272deg) brightness(105%) contrast(87%);
+}
