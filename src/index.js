@@ -13,6 +13,7 @@ import './style.css'
 
 const allTaskArray = []
 const priorityArray = []
+const completedArray = []
 let mainArray = undefined
 
 //task
@@ -40,22 +41,28 @@ const displayTask = (task) => {
     let newTaskName = createThing(task.name, 'p', "taskName", newTask)
     let newTaskDesc = createThing(task.desc, 'p', "taskDesc", newTask)
     let newTaskDate = createThing(task.date, 'p', "taskDate", newTask)
-    completeButton(newTask)
-    priorityTaskButton(newTask, task)
+    let priorityTask = priorityTaskButton(newTask, task)
+    completeButton(newTask, priorityTask, task)
     deleteTaskButton(newTask, task)
 }
 
-const completeButton = (parent) => {
+const completeButton = (parent, button, task) => {
     let completeTask = document.createElement('button')
     completeTask.classList.add("taskCheck")
     parent.appendChild(completeTask)
     completeTask.addEventListener("click", function() {
-        if (parent.classList.contains("completedTask")) {
-            parent.classList.remove("completedTask")
-        } else {
+        if (completedArray.indexOf(task) == -1) {
             parent.classList.add("completedTask")
+            button.disabled = true
+            completedArray.push(task)
+        } else {
+            parent.classList.remove("completedTask")
+            button.disabled = false
+            let index = completedArray.indexOf(task)
+            completedArray.splice(index, 1)
         }
     })
+    checkCompletion(parent, task)
 }
 
 const priorityTaskButton = (parent, task) => {    
@@ -73,6 +80,7 @@ const priorityTaskButton = (parent, task) => {
         }
     })
     checkPriority(priorityTask, task)
+    return priorityTask
 }
 
 const deleteTaskButton = (parent, task) => {
@@ -98,6 +106,12 @@ const checkPriority = (button, task) => {
     }
     if (mainArray == priorityArray) {
         button.classList.add("taskPriorityActive")
+    }
+}
+
+const checkCompletion = (parent, task) => {
+    if (completedArray.indexOf(task) > -1) {
+        parent.classList.add("completedTask")
     }
 }
 
@@ -329,5 +343,3 @@ let other = taskMaker("json and dates", "definitely add json stuff, take a look 
 displayTask(other)
 let bobobobo = taskMaker("add completedTask style", "consider fading it and striking through all the text or just the title", "2022-21-06")
 displayTask(bobobobo)
-let hi = taskMaker("empty project name", "make it so trash can appears on far right regardless of name. try adding class to icons")
-displayTask(hi)
