@@ -333,7 +333,7 @@ input[type=date] {
 	transition: all 0.8s ease-in-out;
 }
 
-.newTaskContainer:hover {
+.newTaskContainer:hover, .newTaskContainer:active {
 	height: fit-content;
 	max-height: 1000px;
 }
@@ -394,4 +394,17 @@ input[type=date] {
 .completedTask > .taskCheck {
 	background-image: url("media/checkfull.svg");
 	filter: invert(38%) sepia(86%) saturate(3949%) hue-rotate(272deg) brightness(105%) contrast(87%);
+}
+
+/* MEDIA QUERY */
+
+@media only screen and (max-width: 600px) {
+	#container {
+		display: flex;
+		flex-direction: column;
+	
+	}
+	#main {
+		height: 100%;
+	}
 }
