@@ -1,20 +1,10 @@
 import './style.css'
 
-// sort script by task stuff, project stuff, page appearances,
-// tying stuff together, like with event listeners
-// figure out what makes the most sense as you go along
-
-// task sorted and displayed via looping through arrays
-// clicking projects will activate that project's "mode"
-// automatically adding every new task to that
-// delete function loops through project array, targetting certain element,
-// similar to tic tac toe winning logic
-
-
 const allTaskArray = []
 const priorityArray = []
 const completedArray = []
 let mainArray = undefined
+
 
 //task
 const getTaskValues = () => {
@@ -28,11 +18,8 @@ const taskMaker = (name, desc, date) => {
     return { name, desc, date }
 }
 
-
 const taskContainer = document.getElementById('taskContainer')
 
-
-//display
 const displayTask = (task) => {
     let newTask = document.createElement('div')
     newTask.classList.add('newTaskContainer')
@@ -147,8 +134,6 @@ const addTaskToArray = (task) => {
         }
 }
 
-
-//tying it all together
 const taskAdd = () => {
     let taskArray = getTaskValues()
     let task = taskMaker(taskArray[0], taskArray[1], taskArray[2])
@@ -158,14 +143,12 @@ const taskAdd = () => {
     toggleTaskPrompt()
 }
 
-
-// page functionality
 newTaskButton.addEventListener("click", toggleTaskPrompt)
 addTaskCancel.addEventListener("click", toggleTaskPrompt)
 addTaskAdd.addEventListener("click", taskAdd)
 
 
-// display
+// page functionality
 const sidebar = document.getElementById("sidebar")
 const sidebarToggleButton = document.getElementById("sidebarToggle")
 const main = document.getElementById("main")
@@ -175,13 +158,15 @@ const toggleSidebar = () => {
         sidebar.style.display = 'none'
         main.style.gridColumn = " 1 / 3 "
     } else {
-        sidebar.style.display = 'block'
+        sidebar.style.display = 'grid'
         main.style.gridColumn = " 2 / 3 "
     }
 }
 
 sidebarToggleButton.addEventListener("click", toggleSidebar)
 
+
+// project
 const newProjectButton = document.getElementById("newProjectButton")
 const projectPrompt = document.getElementById("projectPrompt")
 const addProjectCancel = document.getElementById("addProjectCancel")
@@ -203,14 +188,10 @@ const clearInput = (formID) => {
     document.getElementById(formID).reset()
 }
 
-
-// project logic
 const getProjectValues = () => {
     return document.getElementById('title').value
 }
 
-
-//display
 const projectContainer = document.getElementById('projectContainer')
 
 const projectMaker = (title) => {
@@ -301,7 +282,6 @@ const projectImgSpan = (button, id) => {
     button.appendChild(imgSpan)
 }
 
-// project logic
 const projectAdd = () => {
     let newProject = getProjectValues()
     newProject = projectMaker(newProject)
@@ -311,18 +291,6 @@ const projectAdd = () => {
     projectDeleteButton(newProjectButton, newProject.tasks)
     clearInput("projectInput")
     toggleProjectPrompt()
-}
-
-const sidebarMain = document.getElementById("sidebarMain")
-
-// dev use, page functionality
-const customProjectAdd = (title, array) => {
-    let customProjectButton = projectDisplay(title, sidebarMain)
-    projectClickHandler(customProjectButton, array, title)
-    projectDisplayTasks(customProjectButton, array)
-    // remove from final project but keep to reference delete button style
-    projectImgSpan(customProjectButton, title)
-    return customProjectButton
 }
 
 const addProjectAdd = document.getElementById('addProjectAdd')
@@ -335,11 +303,21 @@ const projectAppendTitle = (title) => {
     mainTitle.textContent = title
 }
 
+const sidebarMain = document.getElementById("sidebarMain")
+
+// dev use, still projects
+const customProjectAdd = (title, array) => {
+    let customProjectButton = projectDisplay(title, sidebarMain)
+    projectClickHandler(customProjectButton, array, title)
+    projectDisplayTasks(customProjectButton, array)
+    // remove from final project but keep to reference delete button style
+    projectImgSpan(customProjectButton, title)
+    return customProjectButton
+}
+
 const allSection = customProjectAdd("All", allTaskArray)
 allSection.click()
 customProjectAdd("Priority", priorityArray)
 
 let other = taskMaker("json and dates", "definitely add json stuff, take a look at calendar stuff, consider adding", "2022-22-06")
 displayTask(other)
-let bobobobo = taskMaker("add completedTask style", "consider fading it and striking through all the text or just the title", "2022-21-06")
-displayTask(bobobobo)
