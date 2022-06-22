@@ -1,8 +1,9 @@
 import './style.css'
 
-const allTaskArray = []
-const priorityArray = []
-const completedArray = []
+let allTaskArray = []
+let priorityArray = []
+let completedArray = []
+let allProjectArray = []
 let mainArray = undefined
 
 
@@ -141,6 +142,7 @@ const taskAdd = () => {
     addTaskToArray(task, taskDiv)
     clearInput("taskInput")
     toggleTaskPrompt()
+    storageAdd()
 }
 
 newTaskButton.addEventListener("click", toggleTaskPrompt)
@@ -149,6 +151,11 @@ addTaskAdd.addEventListener("click", taskAdd)
 
 
 // page functionality
+
+const clearInput = (formID) => {
+    document.getElementById(formID).reset()
+}
+
 const sidebar = document.getElementById("sidebar")
 const sidebarToggleButton = document.getElementById("sidebarToggle")
 const main = document.getElementById("main")
@@ -183,10 +190,6 @@ const toggleProjectPrompt = () => {
 
 newProjectButton.addEventListener("click", toggleProjectPrompt)
 addProjectCancel.addEventListener("click", toggleProjectPrompt)
-
-const clearInput = (formID) => {
-    document.getElementById(formID).reset()
-}
 
 const getProjectValues = () => {
     return document.getElementById('title').value
@@ -285,6 +288,7 @@ const projectImgSpan = (button, id) => {
 const projectAdd = () => {
     let newProject = getProjectValues()
     newProject = projectMaker(newProject)
+    allProjectArray.push(newProject.tasks)
     let newProjectButton = projectDisplay(newProject.title, projectContainer)
     projectClickHandler(newProjectButton, newProject.tasks, newProject.title)
     projectDisplayTasks(newProjectButton, newProject.tasks)
@@ -310,14 +314,38 @@ const customProjectAdd = (title, array) => {
     let customProjectButton = projectDisplay(title, sidebarMain)
     projectClickHandler(customProjectButton, array, title)
     projectDisplayTasks(customProjectButton, array)
-    // remove from final project but keep to reference delete button style
     projectImgSpan(customProjectButton, title)
     return customProjectButton
 }
 
 const allSection = customProjectAdd("All", allTaskArray)
-allSection.click()
 customProjectAdd("Priority", priorityArray)
 
 let other = taskMaker("json and dates", "definitely add json stuff, take a look at calendar stuff, consider adding", "2022-22-06")
 displayTask(other)
+
+//local storage
+
+const storageAdd = () => {
+    localStorage.setItem("allTasks", JSON.stringify(allTaskArray))
+    localStorage.setItem("priorityTasks", JSON.stringify(priorityArray))
+    localStorage.setItem("completedTasks", JSON.stringify(completedArray))
+    localStorage.setItem("allProjects", JSON.stringify(allProjectArray))
+}
+
+
+//crashes if there's no data
+const storageLoad = () => {
+    if (!(JSON.parse(localStorage["allTasks"]) == undefined)) {
+        allTaskArray = JSON.parse(localStorage["allTasks"]) 
+    }
+ //   priorityArray = JSON.parse(localStorage["priorityTasks"])
+ //   completedArray = JSON.parse(localStorage["completedTasks"])
+ //   allProjectArray = JSON.parse(localStorage["allProjects"])
+}
+
+storageLoad()
+
+
+
+allSection.click()
