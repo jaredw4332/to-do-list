@@ -51,7 +51,8 @@ const completeButton = (parent, button, task) => {
         }
         storageUpdate()
     })
-    checkCompletion(parent, task)
+    checkCompletion(button, parent, task)
+    storageUpdate()
 }
 
 const priorityTaskButton = (parent, task) => {    
@@ -72,6 +73,7 @@ const priorityTaskButton = (parent, task) => {
         storageUpdate()
     })
     checkPriority(priorityTask, task)
+    storageUpdate()
     return priorityTask
 }
 
@@ -82,7 +84,10 @@ const deleteTaskButton = (parent, task) => {
     deleteTask.addEventListener("click", function() {
         let index = allTaskArray.indexOf(task)
         allTaskArray.splice(index, 1)
-        if (task.priority == "yes") {
+        if (mainArray != allTaskArray) {
+            index = mainArray.indexOf(task)
+            mainArray.splice(index, 1)
+        } if (task.priority == "yes") {
             index = priorityArray.indexOf(task)
             priorityArray.splice(index, 1)
         }
@@ -98,9 +103,10 @@ const checkPriority = (button, task) => {
     }
 }
 
-const checkCompletion = (parent, task) => {
+const checkCompletion = (priorityButton, parent, task) => {
     if (task.complete == "yes") {
         parent.classList.add("completedTask")
+        priorityButton.disabled = true
     }
 }
 
@@ -226,18 +232,19 @@ const projectDeleteButton = (button, array) => {
     })
 
     projectDelete.addEventListener("click", function() {
+        let index = allProjectArray.indexOf(array)
+        allProjectArray.splice(array, 1)
         array.forEach(function(task) {
-            let index = allTaskArray.indexOf(task)
-            if (index != -1) {
-                allTaskArray.splice(index, 1)
-            }
-            index = priorityArray.indexOf(task)
-            if (index != -1) {
+            index = allTaskArray.indexOf(task)
+            allTaskArray.splice(index, 1)
+            if (task.priority == "yes") {
+                index = priorityArray.indexOf(task)
                 priorityArray.splice(index, 1)
             }
         })
         array = []
         projectContainer.removeChild(button)
+        storageUpdate()
         allSection.click()
     })
 }
@@ -289,18 +296,27 @@ const projectImgSpan = (button, id) => {
 const projectAdd = () => {
     let newProject = getProjectValues()
     newProject = projectMaker(newProject)
-    allProjectArray.push(newProject.tasks)
+    allProjectArray.push(newProject)
     let newProjectButton = projectDisplay(newProject.title, projectContainer)
     projectClickHandler(newProjectButton, newProject.tasks, newProject.title)
     projectDisplayTasks(newProjectButton, newProject.tasks)
     projectDeleteButton(newProjectButton, newProject.tasks)
     clearInput("projectInput")
     toggleProjectPrompt()
+    storageUpdate()
 }
 
 const addProjectAdd = document.getElementById('addProjectAdd')
 addProjectAdd.addEventListener("click", projectAdd)
 
+const allProjectDisplay = () => {
+    for (let newProject of allProjectArray) {
+        let newProjectButton = projectDisplay(newProject.title, projectContainer)
+        projectClickHandler(newProjectButton, newProject.tasks, newProject.title)
+        projectDisplayTasks(newProjectButton, newProject.tasks)
+        projectDeleteButton(newProjectButton, newProject.tasks)
+    }
+}
 
 const mainTitle = document.getElementById("mainTitle")
 
@@ -343,10 +359,17 @@ const storageLoad = () => {
     for (let item of allProjectArrayPrev) {
         allProjectArray.push(item)
     }
+    allProjectDisplay()
 }
 
 storageLoad()
 
-
+// items added to priority section go into priority array, 
+// others are added there artificially on page load
+// same with all array
+// this way they are all the same and respond to individual cues
+// as of now, if you delete something in All it will stay in it's original project
+// on page reload, completes and priorities aren't shared between all section and projects
+//this solution will solve that
 
 allSection.click()
