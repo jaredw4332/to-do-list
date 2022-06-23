@@ -2,7 +2,6 @@ import './style.css'
 
 let allTaskArray = []
 let priorityArray = []
-let completedArray = []
 let allProjectArray = []
 let mainArray = undefined
 
@@ -12,11 +11,13 @@ const getTaskValues = () => {
     let taskName = document.getElementById('task').value
     let taskDesc = document.getElementById('desc').value
     let taskDate = document.getElementById('date').value
-    return [taskName, taskDesc, taskDate]
+    let taskPriority = "no"
+    let taskCompleted = "no"
+    return [taskName, taskDesc, taskDate, taskPriority, taskCompleted]
 }
 
-const taskMaker = (name, desc, date) => {
-    return { name, desc, date }
+const taskMaker = (name, desc, date, priority, complete) => {
+    return { name, desc, date, priority, complete }
 }
 
 const taskContainer = document.getElementById('taskContainer')
@@ -39,16 +40,16 @@ const completeButton = (parent, button, task) => {
     completeTask.classList.add("taskCheck")
     parent.appendChild(completeTask)
     completeTask.addEventListener("click", function() {
-        if (completedArray.indexOf(task) == -1) {
+        if (task.complete == "no") {
+            task.complete = "yes"
             parent.classList.add("completedTask")
             button.disabled = true
-            completedArray.push(task)
         } else {
+            task.complete = "no"
             parent.classList.remove("completedTask")
             button.disabled = false
-            let index = completedArray.indexOf(task)
-            completedArray.splice(index, 1)
         }
+        storageUpdate()
     })
     checkCompletion(parent, task)
 }
@@ -58,14 +59,17 @@ const priorityTaskButton = (parent, task) => {
     priorityTask.classList.add("taskPriority")
     parent.appendChild(priorityTask)
     priorityTask.addEventListener("click", function() {
-        if (priorityArray.indexOf(task) == -1) {
+        if (task.priority == 'no') {
             priorityArray.push(task)
             priorityTask.classList.add("taskPriorityActive")
+            task.priority = 'yes'
         } else {
             let index = priorityArray.indexOf(task)
             priorityArray.splice(index, 1)
             priorityTask.classList.remove("taskPriorityActive")
+            task.priority = 'no'
         }
+        storageUpdate()
     })
     checkPriority(priorityTask, task)
     return priorityTask
@@ -78,27 +82,24 @@ const deleteTaskButton = (parent, task) => {
     deleteTask.addEventListener("click", function() {
         let index = allTaskArray.indexOf(task)
         allTaskArray.splice(index, 1)
-        taskContainer.removeChild(parent)
-        if (mainArray == allTaskArray) {
-            return
-        } else {
-            let index = mainArray.indexOf(task)
-            mainArray.splice(index, 1)
+        if (task.priority == "yes") {
+            index = priorityArray.indexOf(task)
+            priorityArray.splice(index, 1)
         }
+        taskContainer.removeChild(parent)
+        storageUpdate()
     })
 }
 
 const checkPriority = (button, task) => {
-    if (priorityArray.indexOf(task) > -1) {
+    if (task.priority == 'yes' || mainArray == priorityArray) {
         button.classList.add("taskPriorityActive")
-    }
-    if (mainArray == priorityArray) {
-        button.classList.add("taskPriorityActive")
+        task.priority = 'yes'
     }
 }
 
 const checkCompletion = (parent, task) => {
-    if (completedArray.indexOf(task) > -1) {
+    if (task.complete == "yes") {
         parent.classList.add("completedTask")
     }
 }
@@ -137,12 +138,12 @@ const addTaskToArray = (task) => {
 
 const taskAdd = () => {
     let taskArray = getTaskValues()
-    let task = taskMaker(taskArray[0], taskArray[1], taskArray[2])
+    let task = taskMaker(taskArray[0], taskArray[1], taskArray[2], taskArray[3], taskArray[4])
     let taskDiv = displayTask(task)
     addTaskToArray(task, taskDiv)
     clearInput("taskInput")
     toggleTaskPrompt()
-    storageAdd()
+    storageUpdate()
 }
 
 newTaskButton.addEventListener("click", toggleTaskPrompt)
@@ -309,7 +310,7 @@ const projectAppendTitle = (title) => {
 
 const sidebarMain = document.getElementById("sidebarMain")
 
-// dev use, still projects
+// dev use, projects continued
 const customProjectAdd = (title, array) => {
     let customProjectButton = projectDisplay(title, sidebarMain)
     projectClickHandler(customProjectButton, array, title)
@@ -321,27 +322,27 @@ const customProjectAdd = (title, array) => {
 const allSection = customProjectAdd("All", allTaskArray)
 customProjectAdd("Priority", priorityArray)
 
-let other = taskMaker("json and dates", "definitely add json stuff, take a look at calendar stuff, consider adding", "2022-22-06")
-displayTask(other)
-
-//local storage
-
-const storageAdd = () => {
+// local storage
+const storageUpdate = () => {
     localStorage.setItem("allTasks", JSON.stringify(allTaskArray))
     localStorage.setItem("priorityTasks", JSON.stringify(priorityArray))
-    localStorage.setItem("completedTasks", JSON.stringify(completedArray))
     localStorage.setItem("allProjects", JSON.stringify(allProjectArray))
 }
 
-
-//crashes if there's no data
+// doesn't work on fresh load of page
 const storageLoad = () => {
-    if (!(JSON.parse(localStorage["allTasks"]) == undefined)) {
-        allTaskArray = JSON.parse(localStorage["allTasks"]) 
+    let priorityArrayPrev = JSON.parse(localStorage.getItem("priorityTasks"))
+    for (let item of priorityArrayPrev) {
+        priorityArray.push(item)
     }
- //   priorityArray = JSON.parse(localStorage["priorityTasks"])
- //   completedArray = JSON.parse(localStorage["completedTasks"])
- //   allProjectArray = JSON.parse(localStorage["allProjects"])
+    let allTaskArrayPrev = JSON.parse(localStorage.getItem("allTasks"))
+    for (let item of allTaskArrayPrev) {
+        allTaskArray.push(item)
+    }
+    let allProjectArrayPrev = JSON.parse(localStorage.getItem("allProjects"))
+    for (let item of allProjectArrayPrev) {
+        allProjectArray.push(item)
+    }
 }
 
 storageLoad()
