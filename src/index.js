@@ -84,14 +84,14 @@ const deleteTaskButton = (parent, task) => {
     parent.appendChild(deleteTask)
     let index = 0
     deleteTask.addEventListener("click", function() {
-        if (mainArray.indexOf(task) != -1) {
-            index = mainArray.indexOf(task)
-            mainArray.splice(index, 1)
-        } if (priorityArray.indexOf(task) != 1) {
+        if (allTaskArray.indexOf(task) != -1) {
+            index = allTaskArray.indexOf(task)
+            allTaskArray.splice(index, 1)
+        } else if (priorityArray.indexOf(task) != -1) {
             index = priorityArray.indexOf(task)
             priorityArray.splice(index, 1)
-        } for (let project of allProjectArray) {
-            if (project.tasks.indexOf(task) != 1) {
+        } else for (let project of allProjectArray) {
+            if (project.tasks.indexOf(task) != -1) {
                 index = project.tasks.indexOf(task)
                 project.tasks.splice(index, 1)
             }
@@ -218,6 +218,8 @@ const projectDisplay = (project, parent) => {
     return newProject
 }
 
+
+// always deletes oldest project
 const projectDeleteButton = (button, array) => {
     let projectDelete = document.createElement('button')
     projectDelete.classList.add('projectDelete')
