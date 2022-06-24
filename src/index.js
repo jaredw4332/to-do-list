@@ -61,14 +61,15 @@ const priorityTaskButton = (parent, task) => {
     parent.appendChild(priorityTask)
     priorityTask.addEventListener("click", function() {
         if (task.priority == 'no') {
-            priorityArray.push(task)
             priorityTask.classList.add("taskPriorityActive")
             task.priority = 'yes'
         } else {
-            let index = priorityArray.indexOf(task)
-            priorityArray.splice(index, 1)
             priorityTask.classList.remove("taskPriorityActive")
             task.priority = 'no'
+            if (priorityArray.indexOf(task) != -1) {
+                let index = priorityArray.indexOf(task)
+                priorityArray.splice(index, 1)
+            }
         }
         storageUpdate()
     })
@@ -81,15 +82,19 @@ const deleteTaskButton = (parent, task) => {
     let deleteTask = document.createElement('button')
     deleteTask.classList.add("taskDelete")
     parent.appendChild(deleteTask)
+    let index = 0
     deleteTask.addEventListener("click", function() {
-        let index = allTaskArray.indexOf(task)
-        allTaskArray.splice(index, 1)
-        if (mainArray != allTaskArray) {
+        if (mainArray.indexOf(task) != -1) {
             index = mainArray.indexOf(task)
             mainArray.splice(index, 1)
-        } if (task.priority == "yes") {
+        } if (priorityArray.indexOf(task) != 1) {
             index = priorityArray.indexOf(task)
             priorityArray.splice(index, 1)
+        } for (let project of allProjectArray) {
+            if (project.tasks.indexOf(task) != 1) {
+                index = project.tasks.indexOf(task)
+                project.tasks.splice(index, 1)
+            }
         }
         taskContainer.removeChild(parent)
         storageUpdate()
@@ -133,13 +138,8 @@ const toggleTaskPrompt = () => {
 }
 
 const addTaskToArray = (task) => {
-    allTaskArray.push(task)
+    mainArray.push(task)
     let activeButton = document.getElementsByClassName('activeProject')
-        if (mainArray == allTaskArray) {
-            return
-        } else {
-            mainArray.push(task)
-        }
 }
 
 const taskAdd = () => {
@@ -223,12 +223,8 @@ const projectDeleteButton = (button, array) => {
     projectDelete.classList.add('projectDelete')
     button.appendChild(projectDelete)
 
-    button.addEventListener("mouseover", function(){
+    button.addEventListener("click", function(){
         projectDelete.style.display = "block"
-    })
-
-    button.addEventListener("mouseout", function(){
-        projectDelete.style.display = "none"
     })
 
     projectDelete.addEventListener("click", function() {
@@ -237,10 +233,6 @@ const projectDeleteButton = (button, array) => {
         array.forEach(function(task) {
             index = allTaskArray.indexOf(task)
             allTaskArray.splice(index, 1)
-            if (task.priority == "yes") {
-                index = priorityArray.indexOf(task)
-                priorityArray.splice(index, 1)
-            }
         })
         array = []
         projectContainer.removeChild(button)
@@ -267,6 +259,22 @@ const projectDisplayTasks = (button, array) => {
     button.addEventListener("click", function() {
         projectHideTasks()
         array.forEach(item => displayTask(item))
+        if (mainArray == allTaskArray) {
+            for (let task of priorityArray) {
+                displayTask(task)
+            }
+            for (let project of allProjectArray) {
+                project.tasks.forEach(item => displayTask(item))
+            }
+        } if (mainArray == priorityArray) {
+            for (let project of allProjectArray) {
+                project.tasks.forEach(item => {
+                    if (item.priority == "yes") {
+                        displayTask(item)
+                    }
+                })
+            }
+        }
     })
 }
 
@@ -283,6 +291,10 @@ const projectDeactivate = () => {
     for (let item of projectList) {
         item.classList.remove('activeProject')
         item.disabled = false
+    }
+    let deleteButtonList = document.getElementsByClassName('projectDelete')
+    for (let item of deleteButtonList) {
+        item.style.display = "none"
     }
 }
 
@@ -363,13 +375,5 @@ const storageLoad = () => {
 }
 
 storageLoad()
-
-// items added to priority section go into priority array, 
-// others are added there artificially on page load
-// same with all array
-// this way they are all the same and respond to individual cues
-// as of now, if you delete something in All it will stay in it's original project
-// on page reload, completes and priorities aren't shared between all section and projects
-//this solution will solve that
 
 allSection.click()
