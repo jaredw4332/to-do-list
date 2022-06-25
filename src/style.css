@@ -148,7 +148,7 @@ input[type=date] {
 	color: var(--offwhite);
     background-color: var(--strongblue);
 	display: grid;
-	grid-template-columns: 1fr 4fr;
+	grid-template-columns: 2fr 4fr 1fr;
 	justify-items: baseline;
 	align-items: center;
 }
@@ -169,6 +169,19 @@ input[type=date] {
 	filter: invert(14%) sepia(10%) saturate(2318%) hue-rotate(179deg) brightness(91%) contrast(93%);
 }
 
+#githubLink {
+	height: 24px;
+	width: 24px;
+	margin: 5px;
+	background-repeat: no-repeat;
+	background-image: url('media/github.svg');
+	filter: invert(14%) sepia(10%) saturate(2318%) hue-rotate(179deg) brightness(91%) contrast(93%);
+	transition: 0.3s;
+}
+
+#githubLink:hover {
+	filter: invert(81%) sepia(52%) saturate(326%) hue-rotate(357deg) brightness(104%) contrast(98%);
+}
 
 /* SIDEBAR STYLE */
 
