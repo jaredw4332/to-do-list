@@ -134,12 +134,12 @@ const toggleTaskPrompt = () => {
     } else {
         taskPrompt.style.display = 'none'
         newTaskButton.style.display = 'block'
+        clearInput("taskInput")
     }
 }
 
 const addTaskToArray = (task) => {
     mainArray.push(task)
-    let activeButton = document.getElementsByClassName('activeProject')
 }
 
 const taskAdd = () => {
@@ -192,6 +192,7 @@ const toggleProjectPrompt = () => {
     } else {
         projectPrompt.style.display = 'none'
         newProjectButton.style.display ='block'
+        clearInput("projectInput")
     }
 }
 
@@ -218,9 +219,7 @@ const projectDisplay = (project, parent) => {
     return newProject
 }
 
-
-// always deletes oldest project
-const projectDeleteButton = (button, array) => {
+const projectDeleteButton = (button, array, project) => {
     let projectDelete = document.createElement('button')
     projectDelete.classList.add('projectDelete')
     button.appendChild(projectDelete)
@@ -230,12 +229,8 @@ const projectDeleteButton = (button, array) => {
     })
 
     projectDelete.addEventListener("click", function() {
-        let index = allProjectArray.indexOf(array)
-        allProjectArray.splice(array, 1)
-        array.forEach(function(task) {
-            index = allTaskArray.indexOf(task)
-            allTaskArray.splice(index, 1)
-        })
+        let index = allProjectArray.indexOf(project)
+        allProjectArray.splice(index, 1)
         array = []
         projectContainer.removeChild(button)
         storageUpdate()
@@ -269,6 +264,11 @@ const projectDisplayTasks = (button, array) => {
                 project.tasks.forEach(item => displayTask(item))
             }
         } if (mainArray == priorityArray) {
+            for (let item of allTaskArray) {
+                if (item.priority == "yes") {
+                    displayTask(item)
+                }
+            }
             for (let project of allProjectArray) {
                 project.tasks.forEach(item => {
                     if (item.priority == "yes") {
@@ -314,7 +314,7 @@ const projectAdd = () => {
     let newProjectButton = projectDisplay(newProject.title, projectContainer)
     projectClickHandler(newProjectButton, newProject.tasks, newProject.title)
     projectDisplayTasks(newProjectButton, newProject.tasks)
-    projectDeleteButton(newProjectButton, newProject.tasks)
+    projectDeleteButton(newProjectButton, newProject.tasks, newProject)
     clearInput("projectInput")
     toggleProjectPrompt()
     storageUpdate()
@@ -328,7 +328,7 @@ const allProjectDisplay = () => {
         let newProjectButton = projectDisplay(newProject.title, projectContainer)
         projectClickHandler(newProjectButton, newProject.tasks, newProject.title)
         projectDisplayTasks(newProjectButton, newProject.tasks)
-        projectDeleteButton(newProjectButton, newProject.tasks)
+        projectDeleteButton(newProjectButton, newProject.tasks, newProject)
     }
 }
 
@@ -370,12 +370,10 @@ const storageLoad = () => {
         allTaskArray.push(item)
     }
     let allProjectArrayPrev = JSON.parse(localStorage.getItem("allProjects"))
-    for (let item of allProjectArrayPrev) {
-        allProjectArray.push(item)
-    }
-    allProjectDisplay()
+    allProjectArray = allProjectArrayPrev
 }
 
 storageLoad()
+allProjectDisplay()
 
 allSection.click()
