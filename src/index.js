@@ -1,4 +1,5 @@
 import './style.css'
+import checkIcon from './media/checkicon.svg'
 
 let allTaskArray = []
 let priorityArray = []
@@ -178,6 +179,12 @@ const toggleSidebar = () => {
 }
 
 sidebarToggleButton.addEventListener("click", toggleSidebar)
+
+const headTitle = document.querySelector('head');
+const icon = document.createElement('link');
+icon.setAttribute('rel','shortcut icon');
+icon.setAttribute('href', checkIcon);
+headTitle.appendChild(icon);
 
 
 // project
