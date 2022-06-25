@@ -352,15 +352,26 @@ const customProjectAdd = (title, array) => {
 const allSection = customProjectAdd("All", allTaskArray)
 customProjectAdd("Priority", priorityArray)
 
+
 // local storage
 const storageUpdate = () => {
+    if (!storageAvailable('localStorage')) {
+        return
+    }
     localStorage.setItem("allTasks", JSON.stringify(allTaskArray))
     localStorage.setItem("priorityTasks", JSON.stringify(priorityArray))
     localStorage.setItem("allProjects", JSON.stringify(allProjectArray))
 }
 
-// doesn't work on fresh load of page
 const storageLoad = () => {
+    if (!storageAvailable('localStorage')) {
+        return
+    }
+    if (Storage.length != 3) {
+        localStorage.setItem("allTasks", JSON.stringify(allTaskArray))
+        localStorage.setItem("priorityTasks", JSON.stringify(priorityArray))
+        localStorage.setItem("allProjects", JSON.stringify(allProjectArray))
+    }
     let priorityArrayPrev = JSON.parse(localStorage.getItem("priorityTasks"))
     for (let item of priorityArrayPrev) {
         priorityArray.push(item)
@@ -371,6 +382,32 @@ const storageLoad = () => {
     }
     let allProjectArrayPrev = JSON.parse(localStorage.getItem("allProjects"))
     allProjectArray = allProjectArrayPrev
+}
+
+// import from mozilla docs
+function storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
 }
 
 storageLoad()
