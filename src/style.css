@@ -148,8 +148,8 @@ input[type=date] {
 	color: var(--offwhite);
     background-color: var(--strongblue);
 	display: grid;
-	grid-template-columns: 2fr 4fr 1fr;
-	justify-items: baseline;
+	grid-template-columns: 1fr 4fr 1fr;
+	justify-items: center;
 	align-items: center;
 }
 
@@ -160,7 +160,6 @@ input[type=date] {
 }
 
 #sidebarToggle {
-	justify-self: center;
 	background-image: url("media/bars.svg");
 	height: 40px;
 	width: 40px;
